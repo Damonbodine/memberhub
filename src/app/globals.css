@@ -69,38 +69,38 @@
 }
 
 :root {
-  --background: hsl(0 0% 97.6%);
-  --foreground: hsl(213 52% 24%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(213 52% 24%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(213 52% 24%);
-  --primary: hsl(213 52% 24%);
+  --background: 220 14% 96%;
+  --foreground: 220 40% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 40% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 40% 10%;
+  --primary: 330 60% 50%;
   --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(40 60% 55%);
-  --secondary-foreground: hsl(0 0% 100%);
-  --muted: hsl(220 14% 96%);
-  --muted-foreground: hsl(220 9% 46%);
-  --accent: hsl(40 60% 55%);
-  --accent-foreground: hsl(0 0% 100%);
-  --destructive: hsl(0 84% 60%);
-  --border: hsl(220 13% 91%);
-  --input: hsl(220 13% 91%);
-  --ring: hsl(213 52% 24%);
-  --chart-1: hsl(213 52% 24%);
+  --secondary: 220 14% 90%;
+  --secondary-foreground: 220 40% 10%;
+  --muted: 220 14% 92%;
+  --muted-foreground: 220 10% 45%;
+  --accent: 220 14% 90%;
+  --accent-foreground: 220 40% 10%;
+  --destructive: 0 70% 50%;
+  --border: 220 14% 92%;
+  --input: 220 14% 92%;
+  --ring: 330 60% 50%;
+  --chart-1: 330 60% 50%;
   --chart-2: hsl(40 60% 55%);
   --chart-3: hsl(160 84% 39%);
   --chart-4: hsl(38 92% 50%);
   --chart-5: hsl(0 84% 60%);
   --radius: 0.5rem;
   --sidebar: hsl(213 52% 24%);
-  --sidebar-foreground: hsl(0 0% 100%);
-  --sidebar-primary: hsl(40 60% 55%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(213 52% 30%);
-  --sidebar-accent-foreground: hsl(0 0% 100%);
-  --sidebar-border: hsl(213 52% 30%);
-  --sidebar-ring: hsl(40 60% 55%);
+  --sidebar-foreground: 220 10% 90%;
+  --sidebar-primary: 330 60% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 40% 15%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 220 40% 12%;
+  --sidebar-ring: 330 60% 50%;
 }
 
 @layer base {
@@ -114,4 +114,14 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Elegant SaaS Refinements */
+.card, [data-sidebar="sidebar"] {
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  background-color: hsl(0 0% 100%) !important;
+}
+table th, table td {
+  border-bottom: 1px solid hsl(var(--border)) !important;
 }
