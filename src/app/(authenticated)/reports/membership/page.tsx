@@ -1,5 +1,6 @@
 "use client";
 
+
 import { ReportMembership } from "@/components/report-membership";
 
 export default function MembershipReportPage() {

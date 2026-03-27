@@ -1,5 +1,6 @@
 "use client";
 
+
 import { DirectorySettingsForm } from "@/components/directory-settings-form";
 
 export default function DirectorySettingsPage() {

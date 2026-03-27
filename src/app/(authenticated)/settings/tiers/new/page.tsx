@@ -1,5 +1,6 @@
 "use client";
 
+
 import { TierForm } from "@/components/tier-form";
 
 export default function NewTierPage() {

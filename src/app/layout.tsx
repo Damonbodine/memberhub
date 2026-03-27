@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={`dark ${inter.className}`}>
       <body className="min-h-screen bg-background text-foreground antialiased">
         <ClerkProvider>
           <ConvexClientProvider>{children}</ConvexClientProvider>

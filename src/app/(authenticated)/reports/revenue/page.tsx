@@ -1,5 +1,6 @@
 "use client";
 
+
 import { ReportRevenue } from "@/components/report-revenue";
 
 export default function RevenueReportPage() {

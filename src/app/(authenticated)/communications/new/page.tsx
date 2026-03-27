@@ -1,5 +1,6 @@
 "use client";
 
+
 import { CommunicationForm } from "@/components/communication-form";
 
 export default function NewCommunicationPage() {

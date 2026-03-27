@@ -1,5 +1,6 @@
 "use client";
 
+
 import { ReportRetention } from "@/components/report-retention";
 
 export default function RetentionReportPage() {
