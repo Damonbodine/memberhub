@@ -57,7 +57,7 @@ export const create = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "Create", "membershipTiers", tierId, `Created tier ${args.name}`);
@@ -95,7 +95,7 @@ export const update = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "Update", "membershipTiers", id, `Updated tier fields: ${Object.keys(updates).join(", ")}`);

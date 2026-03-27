@@ -108,7 +108,7 @@ export const create = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "Renewal", "renewals", renewalId, "Created renewal");
@@ -142,7 +142,7 @@ export const complete = mutation({
     // Complete the renewal
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     const processedById = actingUsers.length > 0 ? actingUsers[0]._id : undefined;
 
@@ -219,7 +219,7 @@ export const sendReminder = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "Renewal", "renewals", args.id, `Sent renewal reminder #${renewal.reminderCount + 1}`);

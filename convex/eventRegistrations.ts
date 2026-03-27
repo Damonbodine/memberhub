@@ -106,7 +106,7 @@ export const register = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "Create", "eventRegistrations", regId, `Registered for event "${event.title}" as ${regStatus}`);
@@ -149,7 +149,7 @@ export const cancel = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "StatusChange", "eventRegistrations", args.id, "Cancelled registration");
@@ -178,7 +178,7 @@ export const updateStatus = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "StatusChange", "eventRegistrations", args.id, `Marked as ${args.status}`);

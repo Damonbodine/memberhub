@@ -14,7 +14,7 @@ export const list = query({
     // Determine if the current user is Staff/Admin for privacy bypass
     const currentUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     const isStaffOrAdmin = currentUsers.length > 0 && (currentUsers[0].role === "Admin" || currentUsers[0].role === "StaffMember");
 
@@ -93,7 +93,7 @@ export const upsert = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
 
     if (existing.length > 0) {

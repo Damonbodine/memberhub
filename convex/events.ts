@@ -53,7 +53,7 @@ export const create = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length === 0) throw new Error("User not found");
 
@@ -101,7 +101,7 @@ export const update = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "Update", "events", id, `Updated event fields: ${Object.keys(updates).join(", ")}`);
@@ -147,7 +147,7 @@ export const cancel = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "StatusChange", "events", args.id, `Cancelled event "${event.title}"`);

@@ -59,7 +59,7 @@ export const getCurrentUser = query({
 
     const members = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (members.length === 0) return null;
     const member = members[0];
@@ -119,7 +119,7 @@ export const create = mutation({
     // Get acting user for audit log
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     const actingUserId = actingUsers.length > 0 ? actingUsers[0]._id : memberId;
 
@@ -177,7 +177,7 @@ export const update = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "Update", "members", id, `Updated member fields: ${Object.keys(updates).join(", ")}`);
@@ -202,7 +202,7 @@ export const updateStatus = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "StatusChange", "members", args.id, `Status changed from ${oldStatus} to ${args.status}`);
@@ -227,7 +227,7 @@ export const remove = mutation({
 
     const actingUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (actingUsers.length > 0) {
       await writeAuditLog(ctx, actingUsers[0]._id, "Delete", "members", args.id, `Deleted member ${existing.firstName} ${existing.lastName}`);

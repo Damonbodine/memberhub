@@ -9,7 +9,7 @@ export const listByUser = query({
 
     const currentUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (currentUsers.length === 0) return [];
 
@@ -29,7 +29,7 @@ export const getUnreadCount = query({
 
     const currentUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (currentUsers.length === 0) return 0;
 
@@ -62,7 +62,7 @@ export const markAllAsRead = mutation({
 
     const currentUsers = await ctx.db
       .query("members")
-      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.subject))
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", identity.tokenIdentifier))
       .take(1);
     if (currentUsers.length === 0) throw new Error("User not found");
 

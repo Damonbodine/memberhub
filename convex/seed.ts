@@ -1,4 +1,61 @@
 import { internalMutation } from "./_generated/server";
+import { v } from "convex/values";
+
+export const createDemoUser = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    const tokenIdentifier = "https://working-cat-27.clerk.accounts.dev|user_3BV4YzajQ96nGS3hlBDld9VcLa8";
+    // Check if already exists
+    const existing = await ctx.db
+      .query("members")
+      .withIndex("by_clerkId", (q: any) => q.eq("clerkId", tokenIdentifier))
+      .first();
+    if (existing) {
+      console.log("Demo user already exists");
+      return existing._id;
+    }
+    // Get the first active tier (Individual)
+    const tier = await ctx.db
+      .query("membershipTiers")
+      .withIndex("by_name", (q: any) => q.eq("name", "Individual"))
+      .first();
+    if (!tier) throw new Error("No Individual tier found");
+
+    const memberId = await ctx.db.insert("members", {
+      clerkId: tokenIdentifier,
+      firstName: "Demo",
+      lastName: "User",
+      email: "demo@factory512.dev",
+      phone: "512-555-0199",
+      address: "100 Congress Ave",
+      city: "Austin",
+      state: "TX",
+      zipCode: "78701",
+      tierId: tier._id,
+      role: "Admin",
+      status: "Active",
+      joinDate: Date.now(),
+      renewalDate: Date.now() + 365 * 24 * 60 * 60 * 1000,
+      createdAt: Date.now(),
+    });
+
+    // Add directory entry
+    await ctx.db.insert("memberDirectory", {
+      memberId,
+      displayName: "Demo User",
+      showEmail: true,
+      showPhone: true,
+      showAddress: false,
+      showTier: true,
+      optedIn: true,
+      bio: "Demo administrator account.",
+      updatedAt: Date.now(),
+    });
+
+    console.log("Demo user created successfully:", memberId);
+    return memberId;
+  },
+});
 
 export const seed = internalMutation({
   args: {},
