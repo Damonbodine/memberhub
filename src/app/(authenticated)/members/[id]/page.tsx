@@ -15,7 +15,7 @@ export default function MemberDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-demo="member-detail">
       <MemberDetailHeader memberId={params.id as Id<"members">} />
       <MemberDetailTabs memberId={params.id as Id<"members">} />
     </div>

@@ -3,6 +3,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
+import { DemoModeStartButton } from "@/components/demo-mode";
 import { DashboardStats } from "@/components/dashboard-stats";
 import { TierBreakdown } from "@/components/tier-breakdown";
 import { UpcomingRenewals } from "@/components/upcoming-renewals";
@@ -18,11 +19,14 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6" data-demo="dashboard-overview">
+      <div className="flex items-center justify-between gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <DemoModeStartButton />
       </div>
-      <DashboardStats />
+      <div data-demo="dashboard-stats">
+        <DashboardStats />
+      </div>
       <div className="grid gap-6 md:grid-cols-2">
         <TierBreakdown />
         <QuickActions />
@@ -31,7 +35,7 @@ export default function DashboardPage() {
         <UpcomingRenewals />
         <RecentPayments />
       </div>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2" data-demo="renewal-risk">
         <RenewalRiskWidget />
       </div>
     </div>

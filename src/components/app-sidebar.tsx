@@ -2,7 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   Sidebar,
@@ -27,6 +27,7 @@ import {
   Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { withPreservedDemoQuery } from "@/lib/demo";
 
 const adminRoutes = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -52,6 +53,7 @@ const memberRoutes = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const currentUser = useQuery(api.members.getCurrentUser);
 
   const isAdmin = currentUser?.role === "Admin" || currentUser?.role === "StaffMember";
@@ -70,7 +72,7 @@ export function AppSidebar() {
             const isActive = pathname === route.href || pathname.startsWith(route.href + "/");
             return (
               <SidebarMenuItem key={route.href}>
-                <SidebarMenuButton render={<Link href={route.href} />} isActive={isActive} className="gap-3">
+                <SidebarMenuButton render={<Link href={withPreservedDemoQuery(route.href, searchParams)} />} isActive={isActive} className="gap-3">
                     <Icon className="h-4 w-4" />
                     <span>{route.label}</span>
                 </SidebarMenuButton>

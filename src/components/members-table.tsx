@@ -3,16 +3,18 @@
 import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/status-badge";
 import { Search, Plus } from "lucide-react";
+import { withPreservedDemoQuery } from "@/lib/demo";
 
 export function MembersTable() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
   const [search, setSearch] = useState("");
 
@@ -35,7 +37,7 @@ export function MembersTable() {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-demo="members-table">
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -58,7 +60,7 @@ export function MembersTable() {
             <SelectItem value="Expired">Expired</SelectItem>
           </SelectContent>
         </Select>
-        <Button onClick={() => router.push("/members/new")} className="gap-2">
+        <Button onClick={() => router.push(withPreservedDemoQuery("/members/new", searchParams))} className="gap-2">
           <Plus className="h-4 w-4" />
           Add Member
         </Button>
@@ -78,11 +80,12 @@ export function MembersTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filtered.map((member) => (
+            {filtered.map((member, index) => (
               <TableRow
                 key={member._id}
+                data-demo={index === 0 ? "primary-member-row" : undefined}
                 className="cursor-pointer hover:bg-muted/50"
-                onClick={() => router.push(`/members/${member._id}`)}
+                onClick={() => router.push(withPreservedDemoQuery(`/members/${member._id}`, searchParams))}
               >
                 <TableCell className="font-medium">{member.firstName} {member.lastName}</TableCell>
                 <TableCell>{member.email}</TableCell>
