@@ -7,6 +7,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { StatusBadge } from "@/components/status-badge";
+import { RenewalRiskScore } from "@/components/renewal-risk-score";
+import { RenewalOutreach } from "@/components/renewal-outreach";
+import { EventRecommendations } from "@/components/event-recommendations";
 
 interface MemberDetailTabsProps {
   memberId: Id<"members">;
@@ -22,6 +25,7 @@ export function MemberDetailTabs({ memberId }: MemberDetailTabsProps) {
     <Tabs defaultValue="overview" className="mt-6">
       <TabsList>
         <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="ai-insights">AI Insights</TabsTrigger>
         <TabsTrigger value="dues">Dues</TabsTrigger>
         <TabsTrigger value="communications">Communications</TabsTrigger>
         <TabsTrigger value="events">Events</TabsTrigger>
@@ -55,6 +59,14 @@ export function MemberDetailTabs({ memberId }: MemberDetailTabsProps) {
             )}
           </CardContent>
         </Card>
+      </TabsContent>
+
+      <TabsContent value="ai-insights">
+        <div className="space-y-6">
+          <RenewalRiskScore memberId={memberId} />
+          <RenewalOutreach memberId={memberId} />
+          <EventRecommendations memberId={memberId} />
+        </div>
       </TabsContent>
 
       <TabsContent value="dues">

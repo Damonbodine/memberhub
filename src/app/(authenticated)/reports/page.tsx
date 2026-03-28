@@ -4,6 +4,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Users, DollarSign, RefreshCw } from "lucide-react";
+import { TrendNarrator } from "@/components/trend-narrator";
 
 export default function ReportsHubPage() {
   return (
@@ -38,6 +39,7 @@ export default function ReportsHubPage() {
           </Card>
         </Link>
       </div>
+      <TrendNarrator />
     </div>
   );
 }

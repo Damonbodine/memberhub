@@ -8,6 +8,7 @@ import { TierBreakdown } from "@/components/tier-breakdown";
 import { UpcomingRenewals } from "@/components/upcoming-renewals";
 import { RecentPayments } from "@/components/recent-payments";
 import { QuickActions } from "@/components/quick-actions";
+import { RenewalRiskWidget } from "@/components/renewal-risk-widget";
 
 export default function DashboardPage() {
   const stats = useQuery(api.dashboard.getStats);
@@ -29,6 +30,9 @@ export default function DashboardPage() {
       <div className="grid gap-6 md:grid-cols-2">
         <UpcomingRenewals />
         <RecentPayments />
+      </div>
+      <div className="grid gap-6 md:grid-cols-2">
+        <RenewalRiskWidget />
       </div>
     </div>
   );
