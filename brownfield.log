@@ -1,0 +1,21 @@
+**Run complete. 27/27 steps completed, 0 failures.**
+
+## Summary
+
+Added 4 AI-powered features to MemberHub using OpenRouter API (`nvidia/nemotron-3-super-120b-a12b:free`):
+
+### Files Created (6)
+- **`convex/ai.ts`** — Reusable AI infrastructure with `callOpenRouter()` helper, 4 internal queries for data gathering, and 4 AI actions
+- **`src/components/renewal-risk-score.tsx`** — Scores member renewal likelihood 1-100 with risk factors and recommendation
+- **`src/components/renewal-risk-widget.tsx`** — Dashboard widget showing members with renewals in next 60 days
+- **`src/components/renewal-outreach.tsx`** — Generates personalized renewal reminder emails (celebratory for engaged, re-engagement for inactive)
+- **`src/components/event-recommendations.tsx`** — Recommends upcoming events based on member interests
+- **`src/components/trend-narrator.tsx`** — Generates narrative insights report with highlights, concerns, and recommendations
+
+### Files Modified (3)
+- **`src/components/member-detail-tabs.tsx`** — Added "AI Insights" tab with risk score, outreach, and event recommendations
+- **`src/app/(authenticated)/dashboard/page.tsx`** — Added at-risk renewals widget
+- **`src/app/(authenticated)/reports/page.tsx`** — Added trend narrator section
+
+### Requirements
+- `OPENROUTER_API_KEY` must be set as a Convex environment variable
