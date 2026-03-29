@@ -1,7 +1,7 @@
 "use client";
 
 
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
@@ -10,9 +10,11 @@ import { StatusBadge } from "@/components/status-badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { withPreservedDemoQuery } from "@/lib/demo";
 
 export default function PaymentDetailPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const payment = useQuery(api.duesPayments.getById, params.id ? { id: params.id as Id<"duesPayments"> } : "skip");
 
   if (payment === undefined) {
@@ -24,9 +26,9 @@ export default function PaymentDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-demo="payment-detail">
       <div className="flex items-center gap-4">
-        <Link href="/dues"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href={withPreservedDemoQuery("/dues", searchParams)}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
         <h1 className="text-3xl font-bold tracking-tight">Payment Details</h1>
         <StatusBadge status={payment.status} />
       </div>

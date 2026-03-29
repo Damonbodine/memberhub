@@ -3,15 +3,18 @@
 import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/status-badge";
 import { Plus } from "lucide-react";
+import { withPreservedDemoQuery } from "@/lib/demo";
 
 export function DuesTable() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
 
   const payments = useQuery(
@@ -40,7 +43,10 @@ export function DuesTable() {
             <SelectItem value="Waived">Waived</SelectItem>
           </SelectContent>
         </Select>
-        <Button onClick={() => router.push("/dues/new")} className="gap-2 ml-auto">
+        <Button
+          onClick={() => router.push(withPreservedDemoQuery("/dues/new", searchParams))}
+          className="gap-2 ml-auto"
+        >
           <Plus className="h-4 w-4" />
           Record Payment
         </Button>
@@ -61,9 +67,17 @@ export function DuesTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {payments.map((payment) => (
+            {payments.map((payment, index) => (
               <TableRow key={payment._id}>
-                <TableCell className="font-medium">{payment.memberName ?? "Unknown"}</TableCell>
+                <TableCell className="font-medium">
+                  <Link
+                    href={withPreservedDemoQuery(`/dues/${payment._id}`, searchParams)}
+                    className="text-primary hover:underline"
+                    data-demo={index === 0 ? "primary-payment-row" : undefined}
+                  >
+                    {payment.memberName ?? "Unknown"}
+                  </Link>
+                </TableCell>
                 <TableCell>{payment.tierName ?? "—"}</TableCell>
                 <TableCell>${payment.amount.toLocaleString()}</TableCell>
                 <TableCell>

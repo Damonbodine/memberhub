@@ -90,8 +90,79 @@ const MEMBERHUB_SCENARIO: DemoScenario = {
   ],
 };
 
+const MEMBERHUB_DUES_SCENARIO: DemoScenario = {
+  id: "dues-collection-follow-up",
+  title: "Dues Collection Follow-Up",
+  estimatedMinutes: 2,
+  description:
+    "Show how MemberHub helps staff monitor payments, inspect a dues record, and record a new member payment without leaving the workflow.",
+  steps: [
+    {
+      id: "dashboard-overview",
+      title: "Start with the membership dashboard",
+      body:
+        "The dashboard combines upcoming renewals, recent payments, and member activity so staff can see dues pressure before a lapse becomes a retention problem.",
+      whyItMatters:
+        "For dues-driven nonprofits, the billing story starts with visibility into who has paid and who still needs follow-up.",
+      routePrefix: "/dashboard",
+      target: "[data-demo='dashboard-overview']",
+      actionLabel: "Open dashboard",
+    },
+    {
+      id: "recent-payments",
+      title: "Review recent dues activity",
+      body:
+        "This section gives staff a quick read on the latest recorded payments and whether collection is keeping pace with renewals.",
+      whyItMatters:
+        "A credible membership system needs to show payment activity in the same place staff monitor retention health.",
+      routePrefix: "/dashboard",
+      target: "[data-demo='recent-payments']",
+    },
+    {
+      id: "dues-workspace",
+      title: "Move into the dues workspace",
+      body:
+        "The dues workspace centralizes member payments, status filters, and payment recording so staff can work collection follow-through directly.",
+      whyItMatters:
+        "This proves MemberHub is operational software for billing and follow-up, not just a member directory with a renewal tab.",
+      routePrefix: "/dues",
+      target: "[data-demo='dues-workspace']",
+      actionLabel: "Open dues",
+    },
+    {
+      id: "payment-detail",
+      title: "Inspect an individual payment record",
+      body:
+        "A payment detail page shows the billing period, payment status, method, and notes for a single dues record.",
+      whyItMatters:
+        "This is where staff verify what actually happened with a member payment before deciding on the next outreach step.",
+      routePrefix: "/dues/",
+      target: "[data-demo='payment-detail']",
+      actionTarget: "[data-demo='primary-payment-row']",
+      actionLabel: "Open payment",
+    },
+    {
+      id: "payment-form",
+      title: "Record the next payment",
+      body:
+        "The payment form lets staff log a member payment with status, period, amount, method, and notes in one place.",
+      whyItMatters:
+        "This closes the loop from monitoring dues collection to taking the actual payment-recording action the team needs.",
+      routePrefix: "/dues/new",
+      target: "[data-demo='payment-form']",
+      actionLabel: "Record payment",
+    },
+  ],
+};
+
+const SCENARIO_START_PATHS: Record<string, string> = {
+  "membership-retention-review": "/dashboard?demo=membership-retention-review&step=1",
+  "dues-collection-follow-up": "/dashboard?demo=dues-collection-follow-up&step=1",
+};
+
 function getScenarioById(id: string | null): DemoScenario | null {
   if (id === MEMBERHUB_SCENARIO.id) return MEMBERHUB_SCENARIO;
+  if (id === MEMBERHUB_DUES_SCENARIO.id) return MEMBERHUB_DUES_SCENARIO;
   return null;
 }
 
@@ -216,7 +287,10 @@ export function DemoMode() {
 
   function restartScenario() {
     setStepIndex(0);
-    router.push("/dashboard?demo=membership-retention-review&step=1");
+    router.push(
+      SCENARIO_START_PATHS[activeScenario.id] ??
+        SCENARIO_START_PATHS["membership-retention-review"]
+    );
   }
 
   function exitDemo() {
@@ -309,17 +383,30 @@ export function DemoMode() {
   );
 }
 
-export function DemoModeStartButton({ className }: { className?: string }) {
+export function DemoModeStartButton({
+  className,
+  scenarioId = "membership-retention-review",
+  label = "Start guided demo",
+}: {
+  className?: string;
+  scenarioId?: keyof typeof SCENARIO_START_PATHS;
+  label?: string;
+}) {
   const router = useRouter();
 
   return (
     <Button
       variant="outline"
       className={cn("gap-2", className)}
-      onClick={() => router.push("/dashboard?demo=membership-retention-review&step=1")}
+      onClick={() =>
+        router.push(
+          SCENARIO_START_PATHS[scenarioId] ??
+            SCENARIO_START_PATHS["membership-retention-review"]
+        )
+      }
     >
       <PlayCircle className="h-4 w-4" />
-      Start guided demo
+      {label}
     </Button>
   );
 }

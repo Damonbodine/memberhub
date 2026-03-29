@@ -33,7 +33,9 @@ export default function DashboardPage() {
       </div>
       <div className="grid gap-6 md:grid-cols-2">
         <UpcomingRenewals />
-        <RecentPayments />
+        <div data-demo="recent-payments">
+          <RecentPayments />
+        </div>
       </div>
       <div className="grid gap-6 md:grid-cols-2" data-demo="renewal-risk">
         <RenewalRiskWidget />

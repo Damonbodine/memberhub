@@ -4,16 +4,18 @@ import { useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { withPreservedDemoQuery } from "@/lib/demo";
 
 export function PaymentForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const createPayment = useMutation(api.duesPayments.create);
   const members = useQuery(api.members.list, { status: "Active" });
   const tiers = useQuery(api.membershipTiers.list);
@@ -58,7 +60,7 @@ export function PaymentForm() {
         paymentDate: paymentDate ? new Date(paymentDate).getTime() : undefined,
         notes: notes || undefined,
       });
-      router.push("/dues");
+      router.push(withPreservedDemoQuery("/dues", searchParams));
     } catch (error) {
       console.error("Failed to create payment:", error);
     } finally {
